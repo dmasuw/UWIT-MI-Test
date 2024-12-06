@@ -1,0 +1,28 @@
+trigger:
+- main
+
+variables:
+  environment: 'dev'
+
+stages:
+- stage: DeployTerraform
+  displayName: Deploy Terraform Infrastructure
+  jobs:
+    - job: TerraformDeployment
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.x'
+        - checkout: self
+
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: '<your-service-connection>'
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              terraform init -backend-config="key=${environment}.tfstate"
+              terraform plan -var="environment=${environment}"
+              terraform apply -auto-approve -var="environment=${environment}"
