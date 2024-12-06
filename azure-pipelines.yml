@@ -19,7 +19,7 @@ stages:
 
         - task: AzureCLI@2
           inputs:
-            azureSubscription: '<your-service-connection>'
+            azureSubscription: 'AzureRM'
             scriptType: bash
             scriptLocation: inlineScript
             inlineScript: |
