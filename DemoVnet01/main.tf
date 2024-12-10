@@ -22,6 +22,7 @@ terraform {
 #############################################################################
 
 variable "resource_group_name" {
+  default     = "teraform-rg"
   type = string
 }
 
