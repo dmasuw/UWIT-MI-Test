@@ -4,7 +4,7 @@ trigger:
 variables:
   environment: 'dev'
   resgrp: 'teraform-rg'
-  storageAcc: 'tdemosa'
+  storageAcc: 'tdemosa1'
   storageContrainer: 'terraform-container'
   backendKey: 'dev.terraform.tfstate'
 
