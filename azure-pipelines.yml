@@ -27,7 +27,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            backendServiceArm: 'AzureRM'
+            backendServiceArm: 'AzureRM2'
             backendAzureRmResourceGroupName: '$(resgrp)'
             backendAzureRmStorageAccountName: '$(storageAcc)'
             backendAzureRmContainerName: '$(storageContrainer)'
@@ -54,7 +54,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'AzureRM'
+              backendServiceArm: 'AzureRM2'
               backendAzureRmResourceGroupName: '$(resgrp)'
               backendAzureRmStorageAccountName: '$(storageAcc)'
               backendAzureRmContainerName: '$(storageContrainer)'
@@ -65,12 +65,12 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
-              environmentServiceNameAzureRM: 'AzureRM'
+              environmentServiceNameAzureRM: 'AzureRM2'
               workingDirectory: '$(System.DefaultWorkingDirectory)/DemoVnet01'
           - task: TerraformTaskV4@4
             displayName: apply
             inputs:
               provider: 'azurerm'
               command: 'apply'
-              environmentServiceNameAzureRM: 'AzureRM'
+              environmentServiceNameAzureRM: 'AzureRM2'
               workingDirectory: '$(System.DefaultWorkingDirectory)/DemoVnet01'
