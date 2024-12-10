@@ -9,6 +9,12 @@ terraform {
       version = "~> 2.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name   = "teraform-rg"
+    storage_account_name  = "tdemosa1"
+    container_name        = "terraform-container"
+    key                   = "dev.terraform.tfstate"
+  }
 }
 
 #############################################################################
@@ -17,6 +23,11 @@ terraform {
 
 variable "resource_group_name" {
   type = string
+}
+
+variable "resource_name_prefix" {
+  default     = "trdemo"
+  description = "Prefix of the resources"
 }
 
 variable "location" {
