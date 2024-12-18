@@ -10,10 +10,10 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name   = "teraform-rg"
-    storage_account_name  = "tdemosa1"
+    resource_group_name   = "terraform-rg"
+    storage_account_name  = "terraformstorageuw"
     container_name        = "terraform-container"
-    key                   = "dev.terraform.tfstate"
+    key                   = "vnetDemo1.terraform.tfstate"
   }
 }
 
@@ -23,6 +23,11 @@ terraform {
 
 variable "resource_group_name" {
   default     = "teraform-rg"
+  type = string
+}
+
+variable "Subscription_ID" {
+  default     = "25ed9b92-f207-49e9-ae71-1005a8cfc30e"
   type = string
 }
 
@@ -58,6 +63,8 @@ variable "subnet_names" {
 
 provider "azurerm" {
   features {}
+  subscription_id = var.Subscription_ID
+  use_msi = true
 }
 
 #############################################################################
@@ -95,3 +102,4 @@ module "vnet-main" {
 output "vnet_id" {
   value = module.vnet-main.vnet_id
 }
+
