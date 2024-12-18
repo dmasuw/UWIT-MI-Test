@@ -3,15 +3,47 @@ trigger:
 
 variables:
   environment: 'dev'
-  resgrp: 'teraform-rg'
-  storageAcc: 'tdemosa1'
+  resgrp: 'terraform-rg'
+  storageAcc: 'terraformstorageuw'
   storageContrainer: 'terraform-container'
-  backendKey: 'dev.terraform.tfstate'
+  backendKey: 'vnetDemo1.terraform.tfstate'
+  location: 'eastus'
+  system.debug: true
 
 pool:
   vmImage: 'ubuntu-latest'
 
 stages:
+  - stage: TerraformBackendSetup
+    displayName: Check and Create Storage Account
+    jobs:
+      - job: CheckCreateStorageAct
+        continueOnError: true
+        steps:
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: 'AzureRM2'
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              az group create --location $(location) --name $(resgrp)
+                    
+                    # Check if the storage account exists
+                    if ! az storage account check-name --name $(storageAcc) --query 'nameAvailable' | grep -q true; then
+                      echo "Storage account exists."
+                      
+                      # Check if the container exists
+                      if az storage container exists --name $(storageContrainer) --account-name $(storageAcc) --query 'exists' | grep -q true; then
+                        echo "Container exists."
+                      else
+                        echo "Container does not exist. Creating container."
+                        az storage container create --name $(storageContrainer) --account-name $(storageAcc)
+                      fi
+                    else
+                      echo "Storage account does not exist. Creating storage account and container."
+                      az storage account create --name $(storageAcc) --resource-group $(resgrp) --location eastus --sku Standard_LRS
+                      az storage container create --name $(storageContrainer) --account-name $(storageAcc)
+                    fi
   - stage: TerraformValidate
     displayName: Deploy Terraform Infrastructure
     jobs:
