@@ -8,6 +8,7 @@ variables:
   storageContrainer: 'terraform-container'
   backendKey: 'vnetDemo1.terraform.tfstate'
   location: 'eastus'
+  system.debug: true
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -22,7 +23,7 @@ stages:
         - task: AzureCLI@2
           inputs:
             azureSubscription: 'AzureRM2'
-            scriptType: 'batch'
+            scriptType: 'bash'
             scriptLocation: 'inlineScript'
             inlineScript: |
                     az group create --location $(location) --name $(resgrp)
