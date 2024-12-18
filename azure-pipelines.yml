@@ -26,11 +26,22 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'inlineScript'
             inlineScript: |
-                    az group create --location $(location) --name $(resgrp)
+              az group create --location $(location) --name $(resgrp)
+                    
+                    # Check if the storage account exists
                     if ! az storage account check-name --name $(storageAcc) --query 'nameAvailable' | grep -q true; then
                       echo "Storage account exists."
+                      
+                      # Check if the container exists
+                      if az storage container exists --name $(storageContrainer) --account-name $(storageAcc) --query 'exists' | grep -q true; then
+                        echo "Container exists."
+                      else
+                        echo "Container does not exist. Creating container."
+                        az storage container create --name $(storageContrainer) --account-name $(storageAcc)
+                      fi
                     else
-                      az storage account create --name $(storageAcc) --resource-group $(resgrp) --location $(location) --sku Standard_LRS
+                      echo "Storage account does not exist. Creating storage account and container."
+                      az storage account create --name $(storageAcc) --resource-group $(resgrp) --location eastus --sku Standard_LRS
                       az storage container create --name $(storageContrainer) --account-name $(storageAcc)
                     fi
   - stage: TerraformValidate
