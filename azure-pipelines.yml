@@ -81,6 +81,10 @@ stages:
     jobs:
       - job: apply
         steps:
+          - script: |
+              echo "Printing environment variables for debugging:"
+              printenv
+            displayName: "Print Environment Variables"
           - task: TerraformInstaller@1
             displayName: tfInstall
             inputs:
