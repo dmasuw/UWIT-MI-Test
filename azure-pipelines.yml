@@ -2,13 +2,21 @@ trigger:
 - main
 
 variables:
-  environment: 'dev'
-  resgrp: 'terraform-rg'
-  storageAcc: 'terraformstorageuw'
-  storageContrainer: 'terraform-container'
-  backendKey: 'vnetDemo1.terraform.tfstate'
-  location: 'eastus'
-  system.debug: true
+- group: TerraformSecrets
+- name: environment
+  value: 'dev'
+- name: resgrp
+  value: 'terraform-rg'
+- name: storageAcc
+  value: 'terraformstorageuw'
+- name: storageContrainer
+  value: 'terraform-container'
+- name: backendKey
+  value: 'vnetDemo1.terraform.tfstate'
+- name: location
+  value: 'eastus'
+- name: system.debug
+  value: true
 
 pool:
   vmImage: 'ubuntu-latest'
