@@ -64,7 +64,6 @@ variable "subnet_names" {
 provider "azurerm" {
   features {}
   subscription_id = var.Subscription_ID
-  use_msi = true
 }
 
 #############################################################################
