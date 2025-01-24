@@ -99,14 +99,14 @@ stages:
               backendAzureRmStorageAccountName: '$(storageAcc)'
               backendAzureRmContainerName: '$(storageContrainer)'
               backendAzureRmKey: '$(backendKey)'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/DemoVnet01'
+              #workingDirectory: '$(System.DefaultWorkingDirectory)/DemoVnet01'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:
               provider: 'azurerm'
               command: 'plan'
               environmentServiceNameAzureRM: 'AzureRM2'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/DemoVnet01'
+              #workingDirectory: '$(System.DefaultWorkingDirectory)/DemoVnet01'
           - task: TerraformTaskV4@4
             displayName: apply
             inputs:
